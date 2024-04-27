@@ -1,4 +1,4 @@
-# AeroWave-SpringBoot
+# AeroWave-SpringBoot V1.0
 AeroWave Spring Boot Project that implements an interface of an airline.
 It was a team project.
 In this project i made almost all of the backend, except: Delete, Update and the discount roads section.
