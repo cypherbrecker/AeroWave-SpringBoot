@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="hu" xmlns:th="http://www.thymeleaf.org"
+      th:fragment="layout(content)">
+<head>
+    <meta charset="UTF-8">
+    <title>AeroWave - Bejelentkezés</title>
+    <link rel="stylesheet" href="css/navbar.css">
+    <link rel="stylesheet" href="css/content.css">
+    <link rel="stylesheet" href="css/header.css">
+    <link rel="stylesheet" href="css/footer.css">
+    <link rel="icon" href="img/travel-icon.png">
+</head>
+<body>
+
+<header>
+    <div id="topbar">
+        <img class="topbar_img" src="img/travel-icon.png" alt="travel">
+        <h1 class="topbar_name">AeroWave</h1>
+    </div>
+</header>
+
+<nav id="navbar">
+    <ul>
+        <li><a href="/">Kezdőlap</a></li>
+        <li><a href="/informations">Információk</a></li>
+        <li><a href="/regulation">Szabályzat</a></li>
+        <li><a href="/availability">Elérhetőség</a></li>
+        <!-- <li><a href="admin.html">Szerkesztés</a></li>-->
+        <li  th:if="${#authorization.expression('isAnonymous()')}"
+             style="float: right"><a href="/signin" class="active">Fiók</a> <!-- nem kene mert alapbol kezelve van, de nem art -->
+        </li>
+    </ul>
+</nav>
+
+
+
+<main>
+    <form id="login" action="/belepes" method="post">
+        <div>
+            <label class="username" for="email">Email cím:</label>
+            <input class="reset_button" type="reset" value="🗑">
+        </div>
+        <input id="email" name="a" type="email" size="42" required>
+
+        <label class="password" for="password">Jelszó:</label>
+        <input id="password" name="b" type="password" size="42" required>
+
+        <div>
+            <button class="button change_page login_screen_button" onclick="window.location.href='/register'" type="button" value="Regisztráció">Regisztráció</button>
+            <button class="button login_screen_button" type="submit" value="Submit">Belépés</button>
+        </div>
+    </form>
+</main>
+
+</body>
+</html>

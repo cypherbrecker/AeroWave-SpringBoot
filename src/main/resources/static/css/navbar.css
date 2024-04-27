@@ -1,0 +1,34 @@
+#navbar {
+    position: sticky;
+    z-index: 3;
+    top: 0;
+}
+
+#navbar ul {
+    width: 100%;
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #333;
+}
+
+li a:not(.footer_link){
+    font-size: 0.85rem;
+    font-weight: bold;
+    float: left;
+    text-decoration: none;
+    font-family: Arial, serif;
+    color: white;
+    text-align: center;
+    vertical-align: middle;
+    padding: 0.75rem 2rem;
+}
+
+.active:not(.footer_link){
+    background-color: firebrick;
+}
+
+li a:hover:not(.footer_link){
+    background-color: #336;
+}

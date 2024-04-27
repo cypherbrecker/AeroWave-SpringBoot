@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="hu" xmlns:th="http://www.thymeleaf.org"
+      th:fragment="layout(content)">
+<head>
+    <meta charset="UTF-8">
+    <title>AeroWave - Profilom</title>
+    <link rel="stylesheet" href="../css/navbar.css">
+    <link rel="stylesheet" href="../css/content.css">
+    <link rel="stylesheet" href="../css/header.css">
+    <link rel="stylesheet" href="../css/footer.css">
+    <link rel="icon" href="../img/travel-icon.png">
+</head>
+
+<body>
+
+<header>
+    <div id="topbar">
+        <img class="topbar_img" src="../img/travel-icon.png" alt="travel">
+        <h1 class="topbar_name">AeroWave</h1>
+    </div>
+</header>
+
+<nav id="navbar">
+    <ul>
+        <li><a href="/">Kezdőlap</a></li>
+        <li><a href="/informations">Információk</a></li>
+        <li><a href="/regulation">Szabályzat</a></li>
+        <li><a href="/availability">Elérhetőség</a></li>
+
+        <li th:if="${#authorization.expression('isAuthenticated()') and #authorization.expression('hasRole(''ROLE_ADMIN'')')}">
+            <a href="/user/admin">Szerkesztés</a></li>
+
+        <li th:if="${#authorization.expression('isAuthenticated()')}"
+            style="float: right"><a href="/logout">Kilépés</a>
+        </li>
+        <li th:if="${#authorization.expression('isAuthenticated()')}"
+            style="float: right"><a href="/user/" class="active">Fiók</a>
+        </li>
+    </ul>
+</nav>
+
+<main>
+    <div class="content" id="profile">
+        <div class="title_background">
+            <h2>Profilom</h2>
+        </div>
+        <article>
+            <!-- <th:block th:if="${user!=NULL}">
+                 <p>[Be vagy jelentkezve]</p>
+             </th:block>-->
+
+            <div th:if="${#authorization.expression('isAuthenticated()')}">
+                <!--  <h3 style="text-align: center">Egyenleg: [[${#authentication.principal.credits}]] Ft</h3> -->
+                <!-- <h3 style="text-align: center">Egyenleg: [[${#numbers.formatDecimal(#authentication.principal.credits, 0, 'POINT', 0, 'COMMA')}]] Ft</h3>-->
+
+                <h3 id="credits_text">Egyenleg</h3>
+                <h3 id="credits_value" th:text="${userCredits+ ' Ft'}"></h3>
+
+                <th:block th:if="${userCredits == null}">
+                    <h4 th:text="dontunder" class="route_date"></h4>
+                </th:block>
+
+            </div>
+
+            <div id="profile_flex">
+                <form id="user_details" method="post">
+                    <label class="user_data_label">Név<br>
+                        <input class="user_detail_input" type="text" th:value="${#authentication.principal.full_name}"
+                               disabled>
+                    </label><br>
+                    <label class="user_data_label">Email cím<br>
+                        <input class="user_detail_input" type="text" th:value="${#authentication.name}" disabled>
+                    </label><br>
+                    <th:block th:if="${#authorization.expression('hasRole(''ROLE_ADMIN'')')}">
+                        <label class="user_data_label">Jogosultság<br>
+                            <input class="user_detail_input" type="text" value="Admin" disabled>
+                        </label><br>
+                    </th:block>
+                    <th:block th:if="${#authorization.expression('hasRole(''ROLE_USER'')')}">
+                        <label class="user_data_label">Jogosultság<br>
+                            <input class="user_detail_input" type="text" value="User" disabled>
+                        </label><br>
+                    </th:block>
+                </form>
+
+                <form id="password_change" action="updatePassword" method="post">
+                    <label style="font-size: 1.35rem">Jelenlegi jelszó<br><input type="password" name="oldPass" required></label><br>
+                    <label style="font-size: 1.35rem">Új jelszó<br><input type="password" name="newPass" required></label><br>
+                    <input class="button" type="submit" value="Megerősítés">
+                </form>
+            </div>
+        </article>
+    </div>
+
+    <div class="content" id="reserves">
+        <div class="title_background">
+            <h2>Jegyeim</h2>
+        </div>
+        <article>
+            <th:block th:if="${tickets.size() != 0}">
+                <form class="ticket" action="deleteTicket" th:each="ticket : ${tickets}" method="post">
+                    <img class="ticket_destination_img"
+                         th:src="${'/img/' + ticket.routeID.to_place.toLowerCase().trim() + '.jpg'}"
+                         th:alt="${ticket.routeID.to_place}">
+                    <div class="ticket_info">
+                        <div class="ticket_head">
+                            <h3 class="ticket_name"
+                                th:text="${ticket.routeID.from_place + ' - ' + ticket.routeID.to_place}"></h3>
+                            <h4 class="ticket_congestion" th:text="${ticket.routeID.traffic_jam? 'Torlódás' : ''}"></h4>
+                        </div>
+                        <h4 class="ticket_travel_time"
+                            th:text="${ticket.routeID.date_of_departure+' '+ticket.routeID.time_of_departure+' --> '+ticket.routeID.date_of_arrival+' '+ticket.routeID.time_of_arrival}"></h4>
+                    </div>
+                    <div class="ticket_count_container">
+                        <h3 class="ticket_count" th:text="${ticket.number_of_passengers}"></h3>
+                        <img class="ticket_img" src="/img/ticket.png" alt="ticket">
+                    </div>
+                    <input type="hidden" name="ticket_id" th:value="${ticket.ticket_id}"/>
+                    <button class="ticket_delete button" type="submit">🗑</button>
+                </form>
+            </th:block>
+            <h3 th:if="${tickets.size() == 0}" id="no_reserves">Önnek jelenleg egy foglalása sincs.</h3>
+        </article>
+    </div>
+</main>
+
+<div class="spacer" style="height: 5vh"></div>
+
+</body>
+</html>

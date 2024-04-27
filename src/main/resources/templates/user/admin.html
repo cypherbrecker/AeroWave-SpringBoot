@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="hu" xmlns:th="http://www.thymeleaf.org"
+      th:fragment="layout(content)">
+<head>
+    <meta charset="UTF-8">
+    <title>AeroWave - Admin profil</title>
+    <link rel="stylesheet" href="../css/navbar.css">
+    <link rel="stylesheet" href="../css/content.css">
+    <link rel="stylesheet" href="../css/header.css">
+    <link rel="stylesheet" href="../css/footer.css">
+    <link rel="icon" href="../img/travel-icon.png">
+</head>
+<body>
+
+<header>
+    <div id="topbar">
+        <img class="topbar_img" src="../img/travel-icon.png" alt="travel">
+        <h1 class="topbar_name">AeroWave</h1>
+    </div>
+</header>
+
+<nav id="navbar">
+    <ul>
+        <li><a href="/">Kezdőlap</a></li>
+        <li><a href="/informations">Információk</a></li>
+        <li><a href="/regulation">Szabályzat</a></li>
+        <li><a href="/availability">Elérhetőség</a></li>
+
+        <li th:if="${#authorization.expression('isAuthenticated()') and #authorization.expression('hasRole(''ROLE_ADMIN'')')}"><a href="/user/admin" class="active">Szerkesztés</a></li>
+
+        <li  th:if="${#authorization.expression('isAuthenticated()')}"
+             style="float: right"><a href="/logout">Kilépés</a>
+        </li>
+        <li  th:if="${#authorization.expression('isAuthenticated()')}"
+             style="float: right"><a href="/user/">Fiók</a>
+        </li>
+
+
+        <li  th:if="${#authorization.expression('isAnonymous()')}"
+             style="float: right"><a href="/signin">Fiók</a>
+        </li>
+    </ul>
+</nav>
+
+<main>
+    <div class="content" id="add">
+        <div class="title_background">
+            <h2>Járat hozzáadása</h2>
+        </div>
+        <article>
+            <form action="createRoute" method="post">
+                <fieldset class="box" id="add_inputfield">
+
+                    <label for="honnan">Indulási hely:</label><br>
+                    <input id="honnan" name="from_place" type="text" size="25" required><br>
+
+                    <label for="hova">Érkezési hely:</label><br>
+                    <input id="hova" name="to_place" type="text" required size="38"><br> -->
+
+                    <label for="indulas_datum">Indulás dátuma:</label><br>
+                    <input id="indulas_datum" name="date_of_departure" type="date" required><br>
+
+                    <label for="indulas_idopont">Indulás időpontja:</label><br>
+                    <input id="indulas_idopont" name="time_of_departure" type="time" required><br>
+
+                    <label for="erkezes_datum">Érkezés dátuma:</label><br>
+                    <input id="erkezes_datum" name="date_of_arrival" type="date" required size="38"><br>
+
+                    <label for="erkezes_idopont">Érkezés időpontja:</label><br>
+                    <input id="erkezes_idopont" name="time_of_arrival" type="time" required size="38"><br>
+
+                    <!-- <label for="ferohely">Férőhelyek száma:</label><br>
+                    <input id="ferohely" name="current_headcount" type="number" min="0" required size="38"><br>-->
+
+                    <label id="torlodik_label" for="torlodik">Torlódik:</label>
+                    <input id="torlodik" name="traffic_jam" type="checkbox" value="true"><br>
+
+                    <label id="kedvezmenyes_label" for="kedvezmenyes">Kedvezményes:</label>
+                    <input id="kedvezmenyes" name="discount" type="checkbox" value="true"><br>
+
+                    <label for="ár">Repülő járat ára:</label><br>
+                    <input id="ár" name="price" type="text" required size="38">
+
+                    <label>Repülő azonosítója:</label><br>
+
+                   <!-- <input id="azonosito" name="airplaneID" type="number" required size="38">-->
+
+                    <!-- <input id="azonosito" name="airplaneID" type="number" required size="38">-->
+
+                    <select id="azonosito" name="airplaneID">
+                        <option th:each="airplane : ${airplaneValues}"
+                                th:value="${airplane.airplane_id}"
+                                th:text="${airplane.name + ' ('+airplane.airplane_id + ')'}"></option>
+                    </select>
+
+                    <input type="submit" value="Hozzáad">
+                </fieldset>
+            </form>
+        </article>
+    </div>
+
+    <div class="content" id="modify">
+        <div class="title_background">
+            <h2>Járat módosítása</h2>
+        </div>
+        <article>
+            <form action="updateRoute" method="post">
+                <fieldset class="box" id="add_inputfield_m">
+                    <label>Módosítani kívánt járat:</label><br>
+                    <select id="id" name="route_id">
+                        <option th:each="route : ${routes}"
+                                th:value="${route.getRoute_id()}"
+                                th:text="${route.getRoute_id()}">
+                        </option>
+                    </select>
+                    <br>
+                    <label for="honnan">Indulási hely:</label><br>
+                    <input id="honnan_m" name="from_place" type="text" size="25" required><br>
+
+                    <label for="hova">Érkezési hely:</label><br>
+                    <input id="hova_m" name="to_place" type="text" required size="38"><br>
+
+                    <label for="indulas_datum">Indulás dátuma:</label><br>
+                    <input id="indulas_datum_m" name="date_of_departure" type="date" required><br>
+
+                    <label for="indulas_idopont">Indulás időpontja:</label><br>
+                    <input id="indulas_idopont_m" name="time_of_departure" type="time" required><br>
+
+                    <label for="erkezes_datum">Érkezés dátuma:</label><br>
+                    <input id="erkezes_datum_m" name="date_of_arrival" type="date" required size="38"><br>
+
+                    <label for="erkezes_idopont">Érkezés időpontja:</label><br>
+                    <input id="erkezes_idopont_M" name="time_of_arrival" type="time" required size="38"><br>
+
+                    <!-- <label for="ferohely">Férőhelyek száma:</label><br>
+                    <input id="ferohely" name="current_headcount" type="number" min="0" required size="38"><br>-->
+
+                    <label id="torlodik_label_m" for="torlodik">Torlódik:</label>
+                    <input id="torlodik_M" name="traffic_jam" type="checkbox" value="true"><br>
+
+                    <label id="kedvezmenyes_label_M" for="kedvezmenyes">Kedvezményes:</label>
+                    <input id="kedvezmenyes_m" name="discount" type="checkbox" value="true"><br>
+
+                    <label for="ár">Repülő járat ára:</label><br>
+                    <input id="ár_m" name="price" type="text" required size="38">
+
+                    <label>Repülő azonosítója:</label><br>
+
+                    <!-- <input id="azonosito" name="airplaneID" type="number" required size="38">-->
+
+                    <!-- <input id="azonosito" name="airplaneID" type="number" required size="38">-->
+
+                    <select id="azonosito_m" name="airplaneID">
+                        <option th:each="airplane : ${airplaneValues}"
+                                th:value="${airplane.airplane_id}"
+                                th:text="${airplane.name + ' ('+airplane.airplane_id + ')'}">
+                        </option>
+                    </select>
+
+                    <input type="submit" value="Módosít">
+                </fieldset>
+            </form>
+        </article>
+    </div>
+
+    <!--<div class="content" id="update">
+        <div class="title_background">
+            <h2>Járat módosítása</h2>
+        </div>
+        <article>
+            <table>
+                <tr>
+                    <th>járatszám</th>
+                    <th>honnan</th>
+                    <th>hová</th>
+                    <th>indulási dátum</th>
+                    <th>indulási idő</th>
+                    <th>érkezési dátum</th>
+                    <th>érkezési idő</th>
+                    <th>ár</th>
+                    <th>repülő</th>
+                    <th>Action</th>
+                </tr>
+                <tr th:each="route:${routes}">
+                    <td th:text="${route.route_id}"></td>
+                    <td><input type="text" th:value="${route.from_place}" name="from_place"></td>
+                    <td><input type="text" th:value="${route.to_place}" name="to_place"></td>
+                    <td><input type="date" th:value="${route.date_of_departure}" name="date_of_departure"></td>
+                    <td><input type="time" th:value="${route.time_of_departure}" name="time_of_departure"></td>
+                    <td><input type="date" th:value="${route.date_of_arrival}" name="date_of_arrival"></td>
+                    <td><input type="time" th:value="${route.time_of_arrival}" name="time_of_arrival"></td>
+                    <td><input type="number" th:value="${route.price}" name="price"></td>
+
+                    <td>
+                        <form action="update" method="post">
+                            <input type="hidden" name="id" th:value="${route.route_id}">
+                            <input type="submit" value="modosit">
+                        </form>
+                    </td>
+                </tr>
+            </table>
+
+        </article>
+    </div>-->
+
+    <div class="content" id="remove">
+        <div class="title_background">
+            <h2>Járat törlése</h2>
+        </div>
+        <article>
+            <table id="delete_table">
+                <tr>
+                    <th>
+                        járatszám
+                    </th>
+
+                    <th>
+                        honnan
+                    </th>
+
+                    <th>
+                        hová
+                    </th>
+
+                    <th>
+                        indulási dátum
+                    </th>
+
+                    <th>
+                        indulási idő
+                    </th>
+
+                    <th>
+                        érkezési dátum
+                    </th>
+
+                    <th>
+                        érkezési idő
+                    </th>
+
+                    <th>
+                        ár
+                    </th>
+
+                    <th>
+                        repülő
+                    </th>
+
+                    <th>
+
+                    </th>
+                </tr>
+                <tr th:each="route:${routes}">
+                    <td th:text="${route.route_id}"></td>
+                    <td th:text="${route.from_place}"></td>
+                    <td th:text="${route.to_place}"></td>
+                    <td th:text="${route.date_of_departure}"></td>
+                    <td th:text="${route.time_of_departure}"></td>
+                    <td th:text="${route.date_of_arrival}"></td>
+                    <td th:text="${route.time_of_arrival}"></td>
+                    <td th:text="${route.price}"></td>
+                    <td th:text="${route.airplaneID.getName()}"></td>
+                    <td>
+                        <form action="delete" method="post">
+                            <input type="hidden" name="id" th:value="${route.route_id}">
+                            <input type="submit" value="törlés">
+                        </form>
+                    </td>
+                </tr>
+            </table>
+        </article>
+    </div>
+</main>
+
+</body>
+</html>

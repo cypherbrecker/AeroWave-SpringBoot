@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="hu" xmlns:th="http://www.thymeleaf.org"
+      th:fragment="layout(content)">
+<head>
+    <meta charset="UTF-8">
+    <title>AeroWave - Szabályzat</title>
+    <link rel="stylesheet" href="css/navbar.css">
+    <link rel="stylesheet" href="css/content.css">
+    <link rel="stylesheet" href="css/header.css">
+    <link rel="stylesheet" href="css/footer.css">
+    <link rel="icon" href="img/travel-icon.png">
+</head>
+
+<body>
+
+<header>
+    <div id="topbar">
+        <img class="topbar_img" src="img/travel-icon.png" alt="travel">
+        <h1 class="topbar_name">AeroWave</h1>
+    </div>
+</header>
+
+<nav id="navbar">
+    <ul>
+        <li><a href="/">Kezdőlap</a></li>
+        <li><a href="/informations">Információk</a></li>
+        <li><a href="/regulation" class="active">Szabályzat</a></li>
+        <li><a href="/availability">Elérhetőség</a></li>
+        <li th:if="${#authorization.expression('isAuthenticated()') and #authorization.expression('hasRole(''ROLE_ADMIN'')')}"><a href="/user/admin">Szerkesztés</a></li>
+        <li  th:if="${#authorization.expression('isAuthenticated()')}"
+             style="float: right"><a href="/logout">Kilépés</a>
+        </li>
+        <li  th:if="${#authorization.expression('isAuthenticated()')}"
+             style="float: right"><a href="/user/">Fiók</a>
+        </li>
+
+
+        <li  th:if="${#authorization.expression('isAnonymous()')}"
+             style="float: right"><a href="/signin">Fiók</a>
+        </li>
+    </ul>
+</nav>
+
+<main>
+    <div class="content">
+        <div class="title_background">
+            <h2>POGGYÁSZ SZABÁLYZAT</h2>
+        </div>
+        <article>
+            <h3>KÉZIPOGGYÁSZ</h3>
+            <ul>
+                <li>Tárolás: Fedélzeten</li>
+                <li>Tömeg: MAXIMUM 10 KG</li>
+                <li>Méret: 40 x 30 x 20 cm</li>
+                <li>Fizetési kötelezettség: Nincs</li>
+            </ul>
+            <h3>FEDÉLZETI POGGYÁSZ</h3>
+            <ul>
+                <li>Tárolás: Fedélzeten</li>
+                <li>Tömeg: MAXIMUM 10 KG</li>
+                <li>Kerekek: megengedett/nem kötelező</li>
+                <li>Méret: 55 x 40 x 23 cm</li>
+                <li>Fizetési kötelezettség: Van</li>
+            </ul>
+            <h3>FELADOTT POGGYÁSZ</h3>
+            <ul>
+                <li>Tárolás: Nincs</li>
+                <li>Tömeg: MAX. 10KG, 20KG, 26KG VAGY 32KG</li>
+                <li>Kerekek: megengedett/nem kötelező</li>
+                <li>Méret: 149 x 119 x 171 cm</li>
+                <li>Fizetési kötelezettség: Van</li>
+            </ul>
+        </article>
+    </div>
+</main>
+
+<footer id="footer">
+    <div id="footer_title_column">
+        <p id="footer_title">AeroWave</p>
+    </div>
+    <div id="footer_link_column">
+        <ul id="footer_list">
+            <li><a class="footer_link" href="/informations">Információk</a></li>
+            <li><a class="footer_link" href="/availability">Elérhetőség</a></li>
+            <li><a class="footer_link" href="/regulation">Szabályzat</a></li>
+        </ul>
+    </div>
+    <ul id="impressum">
+        <p>Email: info@aerowave.com</p>
+        <p>Telefon: +1 (555) 123-4567</p>
+        <p>ÁFA azonosító a 27/A. Általános forgalmi adóról szóló törvény alapján: DE123456789</p>
+        <p>Gondos tartalomellenőrzés ellenére nem vállalunk felelősséget a külső linkek tartalmáért.<br>
+            A linkek oldalainak üzemeltetői kizárólag felelősek a tartalmukért.</p>
+    </ul>
+</footer>
+
+</body>
+</html>

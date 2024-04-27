@@ -1,0 +1,956 @@
+html {
+    background-color: black;
+}
+
+body {
+    min-height: 100vh;
+    width: 100%;
+    margin: 0 auto;
+    border: 0;
+    background: url("../img/travel.jpg") center no-repeat;
+    background-size: cover;
+}
+
+#no_scroll_body {
+    overflow: hidden;
+}
+
+.button {
+    transition: color 100ms ease-in-out;
+    font-family: sans-serif;
+    font-size: 1rem;
+    border: none;
+    border-radius: 5px;
+    height: 30px;
+    box-shadow: 3px 3px rgba(0, 0, 0, .7);
+    background: firebrick;
+    font-weight: bold;
+    width: 10rem;
+    color: white;
+    letter-spacing: 2px;
+}
+
+.button:hover {
+    cursor: pointer;
+    color: black;
+    background-color: white;
+}
+
+.button:active {
+    background-color: greenyellow;
+    color: black;
+}
+
+.promocios_container {
+    width: 26rem;
+    height: 6rem;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.promocios_div {
+    transition: all 250ms ease-in-out;
+    background-color: rgba(51, 54, 102, .7);
+    backdrop-filter: blur(10px);
+    border: 2px solid white;
+    border-radius: 10px;
+    color: white;
+    font-family: sans-serif;
+    font-size: 1.3rem;
+    font-weight: bold;
+    text-align: center;
+    padding: 1rem;
+}
+
+.promocios_div:hover {
+    box-shadow: 0 6px 6px rgba(0, 0, 0, .8);
+}
+
+.promocios_div:hover:not(#back_to_search) {
+    margin-top: 2vh;
+}
+
+#back_to_search {
+    margin-bottom: 8vh;
+}
+
+#back_to_search:hover {
+    margin-bottom: 10vh;
+}
+
+.spacer {
+    display: block;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+#return_to_search {
+    display: flex;
+    justify-content: left;
+    align-items: center;
+    margin-top: 2.5vh;
+    width: 12rem;
+    cursor: pointer;
+    letter-spacing: 3px;
+}
+
+#back_div {
+    transition: all 250ms ease-in-out;
+    background-color: rgba(150, 32, 32, .7);
+    padding: 2vh 0;
+    display: block;
+    width: 100%;
+    height: 100%;
+    font-family: sans-serif;
+    font-weight: bold;
+    font-size: 1.1rem;
+    color: white;
+    text-align: center;
+    border-radius: 0 10px 10px 0;
+    border-top: 1px solid white;
+    border-right: 1px solid white;
+    border-bottom: 1px solid white;
+    user-select: none;
+}
+
+#back_div:hover {
+    box-shadow: 5px 5px rgba(0, 0, 0, .5);
+}
+
+.up_arrow, .down_arrow, .left-triangle {
+    transition: all 250ms ease-in-out;
+    width: 0;
+    height: 0;
+}
+
+.up_arrow, .down_arrow {
+    border-left: 30px solid transparent;
+    border-right: 30px solid transparent;
+}
+
+.left-triangle {
+    border-top: 30px solid transparent;
+    border-bottom: 30px solid transparent;
+}
+
+.down_arrow {
+    margin-top: 1vh;
+    border-top: 30px solid rgba(150, 32, 32, .7);
+}
+
+.up_arrow {
+    margin-bottom: 1vh;
+    border-bottom: 30px solid rgba(150, 32, 32, .7);
+}
+
+.left-triangle {
+    margin-left: 1vw;
+    border-right: 30px solid rgba(150, 32, 32, .7);
+}
+
+.route_head {
+    border-radius: 10px 10px 0 0;
+    height: 15vh;
+    overflow: hidden;
+    position: relative;
+}
+
+.route_name, .route_date, .route_passenger, .route_button, .route_img {
+    position: absolute;
+    z-index: 3;
+    margin: 0;
+    padding: 0;
+}
+
+.route_name, .route_date, .route_passenger {
+    text-shadow: 1px 1px rgba(0, 0, 0, 1);
+}
+
+.route_name {
+    top: 30%;
+    left: 2vw;
+}
+
+.route_date {
+    top: 60%;
+    left: 2vw;
+}
+
+.route_passenger {
+    top: 30%;
+    right: 2vw;
+}
+
+.route_button {
+    top: 60%;
+    right: 2vw;
+}
+
+.route_img_blur {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backdrop-filter: blur(3px);
+}
+
+.route_img {
+    width: 100%;
+    border-radius: 10px 10px 0 0;
+    z-index: -1;
+}
+
+.routes {
+    transition: all 250ms ease-in-out;
+    background-color: rgba(51, 54, 102, .6);
+    backdrop-filter: blur(10px);
+    color: white;
+    border-radius: 10px;
+    border: 2px solid white;
+    width: 65vw;
+    margin: auto auto 12vh auto;
+    font-family: sans-serif;
+    text-align: left;
+}
+
+.route_info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.info_container {
+    width: 100%;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+.route_right, .route_left {
+    transition: all 170ms ease-in-out;
+    font-size: 5rem;
+    user-select: none;
+    cursor: pointer;
+    color: white;
+    text-shadow: 2px 2px black;
+}
+
+.route_left {
+    margin-left: 1.5vw;
+}
+
+.route_right {
+    margin-right: 1.5vw;
+}
+
+.route_right:hover, .route_left:hover {
+    color: firebrick;
+}
+
+.route_right:active {
+    transform: translateX(+.5vw);
+}
+
+.route_left:active {
+    transform: translateX(-.5vw);
+}
+
+.time_container {
+    position: relative;
+}
+
+.travel_time {
+    position: absolute;
+    top: 25%;
+    font-size: .8rem;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.congestion {
+    color: firebrick;
+    text-shadow: 1px 1px black;
+    width: 8rem;
+}
+
+#search {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    row-gap: 1vh;
+    justify-content: left;
+    background-color: rgba(51, 54, 102, .7);
+    backdrop-filter: blur(10px);
+    margin: 20vh auto;
+    border: 2px solid white;
+    padding: 3vh 1.5vw 1.0vh;
+    border-radius: 10px;
+    width: 40%;
+    height: 10em;
+    min-width: 320px;
+}
+
+#search select {
+    font-size: 1.2rem;
+    height: 1.7rem;
+    width: 75%;
+}
+
+#search label {
+    font-size: 1.05rem;
+    color: white;
+    font-weight: bold;
+    font-family: Arial, serif;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: left;
+    align-items: center;
+    width: 49%;
+}
+
+#search #utasok {
+    width: 3.5rem;
+    height: 0.99%;
+    margin: 0;
+}
+
+#search #utasok_label {
+    width: 20%;
+}
+
+#search #honnan_label {
+    width: 48%;
+    margin-right: auto;
+}
+
+#search #honnan {
+    width: 77.5%;
+}
+
+#search #mikor_label {
+    width: 49%;
+    margin-right: 4%;
+}
+
+#search #idopont_label {
+    width: 25%;
+}
+
+#search #mikor {
+    width: 75%;
+}
+
+#search #idopont {
+    width: unset;
+    height: unset;
+}
+
+input[type=datetime-local] {
+    width: 75%;
+    margin: 0;
+}
+
+#search label p {
+    display: block;
+    width: 5rem;
+    margin: 0;
+    padding: 0;
+}
+
+#search #submit_search {
+    width: 6rem;
+    margin-left: auto;
+    margin-top: -.3vh;
+}
+
+table {
+    width: 65%;
+    background: #201F1F;
+    font-family: Bahnschrift, serif;
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 15rem;
+    border: 2px solid grey;
+    border-collapse: collapse;
+}
+
+tbody {
+    height: 400px;
+    overflow-y: auto;
+    display: block;
+}
+
+th {
+    color: white;
+    padding: 20px;
+    border: 2px solid grey;
+}
+
+td {
+    border: 2px solid grey;
+}
+
+td input {
+    height: 1.5rem;
+    width: 6.5rem;
+    border: none;
+    border-radius: 5px;
+}
+
+td input:hover {
+    cursor: pointer;
+    color: white;
+    background: firebrick;
+}
+
+#delete_table{
+    width: 100%;
+    font-family: Bahnschrift, serif;
+    display: block;
+    overflow: auto;
+}
+
+#delete_table  th{
+    background: #201F1F;
+    position: sticky;
+    top: 0;
+    z-index: 1;
+}
+
+#delete_table th::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: 2px solid grey;
+    box-sizing: border-box;
+}
+
+.box {
+    margin: 5rem auto 20rem;
+    border: 2px solid white;
+    padding: 2rem;
+    border-radius: 10px;
+    width: 70%;
+    height: 47rem;
+}
+
+.box2 {
+    margin: 5rem auto 20rem;
+    border: 2px solid white;
+    padding: 2rem;
+    border-radius: 10px;
+    width: 70%;
+    height: 9rem;
+}
+
+.box2 input[type=text], input[type=date], input[type=time], input[type=number] {
+    width: 95%;
+}
+
+.box2 input[type=submit] {
+    float: right;
+    border: none;
+    border-radius: 5px;
+    height: 30px;
+    width: 10.5rem;
+}
+
+.box2 input[type=submit]:hover {
+    cursor: pointer;
+    color: white;
+    background: firebrick;
+}
+
+#rremovebox {
+    border-radius: 10px;
+    width: 40%;
+    height: 5rem;
+}
+
+.box input[type=text], input[type=date], input[type=time], input[type=number] {
+    width: 95%;
+}
+
+.box input[type=date], input[type=time] {
+    height: 1.95rem;
+    width: 95%;
+}
+
+.box input[type=number] {
+    width: 95%;
+}
+
+.box input[type=submit] {
+    float: right;
+    border: none;
+    border-radius: 5px;
+    height: 30px;
+    width: 10.5rem;
+}
+
+.box input[type=submit]:hover {
+    cursor: pointer;
+    color: white;
+    background: firebrick;
+}
+
+#rremovebox input[type=submit] {
+    border: none;
+    float: right;
+    border-radius: 5px;
+    height: 30px;
+    width: 10.5rem;
+    margin-left: 40rem;
+    margin-top: -3rem;
+}
+
+#rremovebox input[type=submit]:hover {
+    cursor: pointer;
+    color: white;
+    background: firebrick;
+}
+
+.box input[type=checkbox] {
+    width: 1.05rem;
+    height: 1.05rem;
+}
+
+#login, #createUser {
+    color: white;
+    font-family: sans-serif;
+    font-size: 1.25rem;
+    border: 2px solid white;
+    border-radius: 10px;
+    background-color: rgba(51, 54, 102, .7);
+    backdrop-filter: blur(10px);
+    margin-top: 20vh;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 2vh 2vw;
+    width: 30%;
+    height: 14%;
+    min-width: 320px;
+}
+
+.reset_button {
+    font-weight: bold;
+    font-size: 1.5rem;
+    background-color: firebrick;
+    color: white;
+    width: 2.25rem;
+    height: 2.25rem;
+    border-radius: 5px;
+    border: 1px solid white;
+    margin-top: 0;
+    margin-right: -3%;
+}
+
+.reset_button:hover {
+    cursor: pointer;
+    background-color: crimson;
+}
+
+.reset_button:active {
+    background-color: tomato;
+}
+
+#login input[type="password"], #login input[type="email"], #createUser input[type="password"],
+#createUser input[type="email"], #createUser input[type="text"] {
+    width: 98%;
+}
+
+.change_page {
+    background-color: lightgray;
+    color: black;
+}
+
+#login .login_screen_button, #createUser .login_screen_button {
+    font-family: sans-serif;
+    font-size: 1rem;
+    font-weight: bold;
+    height: 2rem;
+    width: 11rem;
+    letter-spacing: 0;
+    margin-top: 3vh;
+}
+
+#login div, #createUser div {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+}
+
+input {
+    height: 1.5rem;
+    font-size: 1rem;
+    margin-top: .5rem;
+    margin-bottom: .5rem;
+}
+
+input[type=radio] {
+    height: 1rem;
+    width: 1rem;
+    margin-left: 1rem;
+    margin-right: 1rem;
+}
+
+#offers {
+    transition: all 250ms ease-in-out;
+    background-color: rgba(51, 54, 102, .4);
+    backdrop-filter: blur(10px);
+    color: white;
+    border-radius: 10px;
+    border: 2px solid white;
+    width: 60vw;
+    margin: auto;
+    text-align: left;
+    scroll-behavior: smooth;
+}
+
+#offers:hover {
+    transition: all 250ms ease-in-out;
+    box-shadow: 0 25px 45px rgba(0, 0, 0, 1);
+}
+
+.offer_container {
+    display: flex;
+    justify-content: left;
+    align-items: center;
+}
+
+a {
+    text-decoration: none;
+}
+
+#offers_img {
+    position: relative;
+    border-radius: 10px 10px 0 0;
+    width: 100%;
+    aspect-ratio: 2.5;
+}
+
+#offer_name, #offer_date {
+    display: inline;
+    margin-left: 1.5rem;
+    font-family: sans-serif;
+}
+
+#price {
+    color: greenyellow;
+    display: block;
+    font-size: 1.35rem;
+    font-weight: bold;
+    width: 70%;
+    padding: 0;
+    margin-left: 2rem;
+}
+
+#offer_button {
+    margin-left: auto;
+    margin-right: 2rem;
+    width: 10rem;
+    border-radius: 3px;
+}
+
+#right_arrow, #left_arrow {
+    transition: all 170ms ease-in-out;
+    text-shadow: 2px 2px rgba(0, 0, 0, .5);
+    user-select: none;
+    top: auto;
+    z-index: 3;
+    position: absolute;
+    font-size: 3.5vw;
+    cursor: pointer;
+    color: inherit;
+}
+
+#right_arrow {
+    right: 1.5vw;
+}
+
+#left_arrow {
+    left: 1.5vw;
+}
+
+#right_arrow:hover, #left_arrow:hover {
+    color: firebrick;
+}
+
+#right_arrow:active {
+    transform: translateX(+.5vw);
+}
+
+#left_arrow:active {
+    transform: translateX(-.5vw);
+}
+
+.profile {
+    border-radius: 10px;
+    margin: 10rem auto;
+    background: #333;
+    width: 70%;
+}
+
+.profile_info {
+    margin-left: auto;
+    margin-right: auto;
+    background: none;
+    border: 2px solid white;
+    border-radius: 10px;
+    height: 16rem;
+    width: 50%;
+}
+
+.modify_password {
+    margin-left: auto;
+    margin-right: auto;
+    background: none;
+    border: 2px solid white;
+    height: 15rem;
+    width: 50%;
+}
+
+.modify_password .button {
+    width: 98%;
+}
+
+#add, #modify {
+    height: 80rem;
+    width: 35%;
+}
+
+#rremove {
+    height: 40rem;
+    width: 35%;
+}
+
+.title_background {
+    width: 100%;
+    height: 9.75rem;
+    border-radius: 10px 10px 0 0;
+    background: url('../img/rome.jpg') center;
+}
+
+h2 {
+    padding: 4rem;
+    margin-top: 0;
+    margin-bottom: 0;
+    border-radius: 10px 10px 0 0;
+    background-size: cover;
+    background-color: rgba(33, 33, 33, .1);
+    backdrop-filter: blur(3px);
+    font-family: Arial, serif;
+    font-size: 1.75rem;
+    font-weight: bold;
+    text-align: center;
+    text-shadow: #000000 2px 2px;
+}
+
+h3 {
+    font-family: Arial, serif;
+    font-weight: bold;
+    font-size: 1.5rem;
+    padding: 1rem;
+}
+
+h3:not(:first-of-type):not(.price):not(.routes h3) {
+    border-top: 1px solid white;
+    padding-top: 3vh;
+}
+
+.content {
+    width: 60%;
+    margin: 5% auto;
+    border-radius: 10px;
+    background-color: rgba(22, 22, 22, .85);
+    backdrop-filter: blur(25px);
+    color: white;
+}
+
+.content article {
+    padding: 1.2vh 2vw;
+}
+
+#no_result, #to_many_passengers {
+    font-size: 3rem;
+    font-weight: bold;
+    color: white;
+    background: transparent;
+    padding: 23.3vh;
+}
+
+#profile_flex {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#user_details {
+    font-family: sans-serif;
+    font-size: 1.5rem;
+    width: 49%;
+    border-right: 2px solid white;
+    margin: 3vh 2.5vw;
+}
+
+#user_details {
+    display: block;
+    margin-top: -.7vh;
+}
+
+.user_data_label {
+    display: block;
+    margin-top: -.7vh;
+}
+
+.user_detail_input {
+    border: none;
+    background: none;
+    color: lightgrey;
+}
+
+#password_change {
+    width: 49%;
+    margin: auto;
+    font-family: sans-serif;
+    font-size: 1.5rem;
+}
+
+#password_change input {
+    width: 95%;
+}
+
+#password_change label {
+    display: block;
+}
+
+#password_change input[type="submit"] {
+    width: 8rem;
+    display: block;
+    margin-left: auto;
+}
+
+#credits_text, #credits_value {
+    display: block;
+    width: 100%;
+    margin: 1vh 0 0 0;
+    text-align: right;
+    padding: 0;
+    border: 0;
+    font-family: sans-serif;
+    font-size: 1rem;
+}
+
+#credits_value {
+    font-size: 1.2rem;
+}
+
+#reserves {
+    font-family: sans-serif;
+    font-size: 1rem;
+    color: white;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+    margin-bottom: 5vh;
+}
+
+#reserves article {
+    padding: 0;
+}
+
+#no_reserves {
+    text-align: center;
+}
+
+.ticket {
+    width: 99%;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: flex-start;
+    height: 11vh;
+    background-color: rgba(255, 255, 255, .05);
+    border: 1px solid white;
+    padding-right: 1%;
+}
+
+.ticket_destination_img {
+    width: 25%;
+    height: 100%;
+}
+
+.ticket_info {
+    width: 50%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1vh 1vw;
+    flex-direction: column;
+}
+
+.ticket_head {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5vh;
+}
+
+.ticket_name {
+    padding: 0;
+    margin: 0; /*nem redundáns, ne töröld, enélkül behal xd*/
+    margin-top: 1vh;
+}
+
+.ticket_congestion {
+    color: firebrick;
+    text-shadow: 1px 1px black;
+    padding: 0;
+    margin: 0;
+}
+
+.ticket_travel_time {
+    padding: 0;
+    margin: 0;
+    width: 100%;
+}
+
+.ticket_count_container {
+    width: 20%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.ticket_img {
+    width: 50%;
+}
+
+.ticket_count {
+    display: block;
+    font-size: 2rem;
+    width: 10%;
+    text-align: right;
+    margin: 0;
+    padding: 0;
+}
+
+.ticket_delete {
+    margin: auto;
+    margin-right: 1vw;
+    width: 2.5rem;
+    font-size: 1.7rem;
+    height: 2.5rem;
+}
+
+main, body {
+    min-height: 100vh;
+    height: 100%;
+}

@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="hu" xmlns:th="http://www.thymeleaf.org"
+      th:fragment="layout(content)">
+<head>
+    <meta charset="UTF-8">
+    <title>AeroWave - Kezdőlap</title>
+    <link rel="stylesheet" href="css/navbar.css">
+    <link rel="stylesheet" href="css/content.css">
+    <link rel="stylesheet" href="css/header.css">
+    <link rel="stylesheet" href="css/footer.css">
+    <link rel="icon" href="img/travel-icon.png">
+</head>
+
+<body id="no_scroll_body">
+
+<header>
+    <div id="topbar">
+        <img class="topbar_img" src="img/travel-icon.png" alt="travel">
+        <h1 class="topbar_name">AeroWave</h1>
+    </div>
+</header>
+
+<nav id="navbar">
+    <ul>
+        <li><a href="/" class="active">Kezdőlap</a></li>
+        <li><a href="/informations">Információk</a></li>
+        <li><a href="/regulation">Szabályzat</a></li>
+        <li><a href="/availability">Elérhetőség</a></li>
+        <li th:if="${#authorization.expression('isAuthenticated()') and #authorization.expression('hasRole(''ROLE_ADMIN'')')}">
+            <a href="/user/admin">Rendszerkezelés</a></li>
+
+        <li th:if="${#authorization.expression('isAuthenticated()')}"
+            style="float: right"><a href="/logout">Kilépés</a>
+        </li>
+        <li th:if="${#authorization.expression('isAuthenticated()')}"
+            style="float: right"><a href="/user/">Fiók</a>
+        </li>
+
+
+        <li th:if="${#authorization.expression('isAnonymous()')}"
+            style="float: right"><a href="/signin">Fiók</a>
+        </li>
+
+
+    </ul>
+</nav>
+
+<main>
+    <form id="search" method="post" th:action="@{/}">
+        <label id="honnan_label" for="honnan">
+            <p>Honnan</p>
+            <select id="honnan" name="from_place" required>
+                <option th:each="city : ${fromCities}" th:value="${city}" th:text="${city}"></option>
+            </select><br>
+
+           <!-- <select id="honnan" name="honnan" th:field="${selectedHonnan}">
+                <option th:each="honnan : ${honnanValues}" th:value="${honnan}" th:text="${honnan}"></option>
+            </select>-->
+        </label>
+
+        <label id="hova_label" for="hova">
+            <p>Hova</p>
+            <select id="hova" name="to_place" required>
+                <option th:each="city : ${toCities}" th:value="${city}" th:text="${city}"></option>
+            </select><br>
+           <!-- <select id="hova" name="hova" th:field="${selectedHova}">
+                <option th:each="hova : ${hovaValues}" th:value="${hova}" th:text="${hova}"></option>
+            </select>-->
+        </label>
+
+        <label id="mikor_label" for="mikor">
+            <p>Dátum</p>
+        <!--    <input id="mikor" name="date_of_departure" type="date" required>-->
+            <input id="mikor" name="date_of_departure" type="date" required>
+            <script>
+                var today = new Date().toISOString().split('T')[0];
+                var dateInput = document.getElementById('mikor');
+                dateInput.setAttribute('min', today);
+            </script>
+
+        </label>
+        <label id="idopont_label" for="idopont">
+            <p>Időpont</p>
+            <input id="idopont" name="time_of_departure" type="time" required>
+        </label>
+
+        <label id="utasok_label" for="utasok">
+            <p>Utasok</p>
+            <input id="utasok" name="teszt" type="number" required min="1">
+        </label>
+
+        <input id="submit_search" class="button" type="submit" value="Keresés">
+    </form>
+
+    <a class="promocios_container smooth-scroll" id="to_offers" href="#offers">
+        <div class="promocios_div">Promóciós Utak</div>
+        <div class="down_arrow"></div>
+    </a>
+
+    <div class="spacer" style="height: 30vh"></div>
+
+    <a class="promocios_container smooth-scroll" id="from_offers" href="#topbar">
+        <div class="up_arrow"></div>
+        <div id="back_to_search" class="promocios_div">Vissza a Kereséshez</div>
+    </a>
+
+    <div id="offers">
+        <div class="offer_container">
+            <a id="left_arrow" th:href="${'/promo=' + (curPromo.display_id - 1) + '#offers'}">&#10094;</a>
+            <img id="offers_img" src="" alt="INVALID" th:src="${'/img/' + curPromo.to_place.toLowerCase().trim() + '.jpg'}" th:alt="${curPromo.to_place}">
+            <a id="right_arrow" th:href="${'/promo=' + (curPromo.display_id + 1) + '#offers'}">&#10095;</a>
+        </div>
+        <div class="offer_container">
+            <h3 id="offer_name" th:text="${curPromo.from_place + ' - ' + curPromo.to_place}">INVALID NAME</h3>
+            <h4 id="offer_date" th:text="${curPromo.date_of_departure + ' ' + curPromo.time_of_departure}">INVALID TIME</h4>
+        </div>
+        <div class="offer_container">
+            <h3 id="price" th:text="${'Most kedvezményes áron: ' + curPromo.price + ' Ft'}">INVALID PRICE</h3>
+            <th:block th:if="${curPromo.current_headcount + 1 le curPromo.airplaneID.max_headcount}">
+                <form action="pay" th:if="${#authorization.expression('isAuthenticated()')}" method="post" style="margin-left: auto;">
+                    <input type="hidden" name="routeID" th:value="${curPromo.route_id}"/>
+                    <input type="hidden" name="price" th:value="${curPromo.price}"/>
+                    <input type="hidden" name="number_of_passengers" th:value="${1}"/>
+                    <input type="hidden" name="userID" th:value="${idkeres}"/>
+                    <button id="offer_button" type="submit" class="button">Megvesz</button>
+                </form>
+            </th:block>
+        </div>
+
+        <script>
+            function smoothScroll(event, target, resetAfter=false) {
+                if (event.currentTarget.classList.contains('smooth-scroll')) {
+                    event.preventDefault();
+                    const targetElement = document.getElementById(target);
+                    if (targetElement) {
+                        targetElement.scrollIntoView({behavior: "smooth"});
+                        if(resetAfter){
+                            setTimeout(function() {
+                                document.location.href="/";
+                            },
+                            500);
+                        }
+                    }
+                }
+            }
+            document.getElementById('to_offers').addEventListener('click', function(event){smoothScroll(event, 'offers')});
+            document.getElementById('from_offers').addEventListener('click', function(event){smoothScroll(event, 'topbar', true)});
+        </script>
+    </div>
+
+    <div class="spacer" style="height: 7vh"></div>
+</main>
+</body>
+</html>

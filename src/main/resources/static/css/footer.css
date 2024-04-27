@@ -1,0 +1,60 @@
+#footer {
+    left:0;
+    right: 0;
+    margin: 0;
+    padding: 3vh 3vw;
+    height: 11rem;
+    background-color: #333;
+    display:flex;
+    align-items: center;
+    justify-content: left;
+    position: relative;
+    bottom: 0;
+}
+
+#footer_title_column{
+    min-width: 10%;
+}
+
+#footer_link_column{
+    width: 25%;
+    margin-left: 1.25vw;
+    border-left: 2px solid white;
+}
+
+#footer_list{
+    width: 30%;
+    list-style-type: none;
+}
+
+#footer_list li:not(:first-of-type){
+    margin-top: 1.5vh;
+}
+
+#footer_title {
+    color: white;
+    font-size: 2rem;
+    font-family: Bahnschrift, serif;
+    font-weight: bold;
+}
+
+.footer_link, .footer_link:visited{
+    text-decoration: none;
+    color:white;
+    font-size: 1.5rem;
+    font-family: sans-serif;
+}
+
+.footer_link:hover{
+    color:lightgray;
+}
+
+.footer_link:active{
+    color: grey;
+}
+
+#impressum{
+    color: gainsboro;
+    font-family: sans-serif;
+    font-size: .9rem;
+}

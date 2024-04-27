@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="hu" xmlns:th="http://www.thymeleaf.org"
+      th:fragment="layout(content)">
+<head>
+    <meta charset="UTF-8">
+    <title>AeroWave - Kezdőlap</title>
+    <link rel="stylesheet" href="css/navbar.css">
+    <link rel="stylesheet" href="css/content.css">
+    <link rel="stylesheet" href="css/header.css">
+    <link rel="stylesheet" href="css/footer.css">
+    <link rel="icon" href="img/travel-icon.png">
+</head>
+
+<body>
+
+<header>
+    <div id="topbar">
+        <img class="topbar_img" src="img/travel-icon.png" alt="travel">
+        <h1 class="topbar_name">AeroWave</h1>
+    </div>
+</header>
+
+<nav id="navbar">
+    <ul>
+        <li><a href="/" class="active">Kezdőlap</a></li>
+        <li><a href="/informations">Információk</a></li>
+        <li><a href="/regulation">Szabályzat</a></li>
+        <li><a href="/availability">Elérhetőség</a></li>
+        <li th:if="${#authorization.expression('isAuthenticated()') and #authorization.expression('hasRole(''ROLE_ADMIN'')')}">
+            <a href="/user/admin">Rendszerkezelés</a></li>
+
+        <li th:if="${#authorization.expression('isAuthenticated()')}"
+            style="float: right"><a href="/logout">Kilépés</a>
+        </li>
+        <li th:if="${#authorization.expression('isAuthenticated()')}"
+            style="float: right"><a href="/user/">Fiók</a>
+        </li>
+        <li th:if="${#authorization.expression('isAnonymous()')}"
+            style="float: right"><a href="/signin">Fiók</a>
+        </li>
+    </ul>
+</nav>
+
+<div id="return_to_search" onclick='window.location.href="/"'>
+    <div class="left-triangle"></div>
+    <div id="back_div">Vissza</div>
+</div>
+
+<h2 id="no_result" th:if="${noResults}">Nincs Találat!</h2>
+
+<th:block th:if="${hasResults}">
+    <th:block th:if="${matchingRoutes[0].current_headcount + teszt le matchingRoutes[0].airplaneID.max_headcount}">
+        <th:block th:each="route : ${matchingRoutes}">
+            <!-- <td th:if="${teszt + route.current_headcount le route.airplaneID.max_headcount}">-->
+            <div class="routes">
+                <div class="route_head">
+                    <h3 th:text="${route.from_place + ' - '+ route.to_place}" class="route_name">invalid</h3>
+                    <h4 th:text="${route.date_of_departure}" class="route_date">invalid</h4>
+                    <h4 th:text="${teszt + ' fő részére'}" class="route_passenger">invalid</h4>
+                    <!--<button class="route_button button" onclick="">Megvesz</button>-->
+                    <form action="pay" th:if="${#authorization.expression('isAuthenticated()')}" method="post">
+                        <input type="hidden" name="routeID" th:value="${route.route_id}"/>
+                        <input type="hidden" name="price" th:value="${route.price}"/>
+                        <input type="hidden" name="number_of_passengers" th:value="${teszt}"/>
+                        <input type="hidden" name="userID" th:value="${idkeres}"/>
+                        <button type="submit" class="route_button button">Megvesz</button>
+                    </form>
+                    <h4 th:if="${#authorization.expression('isAnonymous()')}" class="route_button">Lépj be a vásárláshoz!</h4>
+                    <div class="route_img_blur"></div>
+                    <img class="route_img" src="img/monaco.jpg" alt="Monaco">
+                </div>
+                <div class="route_info">
+                    <!-- <div class="route_left" onclick="prevNormal()">&#10094;</div>-->
+                    <div class="info_container">
+                        <div class="time_container">
+                            <h3 th:text="${route.time_of_departure + ' - - - - - - - - - - > ' + route.time_of_arrival}" class="route_times">invalid</h3>
+                        </div>
+                        <td th:if="${route.traffic_jam}">
+                            <h3 class="congestion">Torlódik!</h3>
+                        </td>
+                        <td th:unless="${route.traffic_jam}">
+                            <h3 class="congestion"></h3>
+                        </td>
+                        <h3 th:text="${route.price* teszt + ' Ft'} " class="route_price">invalid Ft</h3>
+                    </div>
+                    <!--<div class="route_right" onclick="nextNormal()">&#10095;</div>-->
+                </div>
+            </div>
+        </th:block>
+    </th:block>
+    <th:block th:unless="${matchingRoutes[0].current_headcount + teszt le matchingRoutes[0].airplaneID.max_headcount}">
+        <h2 id="to_many_passengers">Nincs találat (sok az utas és nem férne fel)</h2>
+    </th:block>
+</th:block>
+
+<!--
+<div class="routes" id="route_forward">
+    <div class="route_head">
+        <h3 class="route_name">Budapest - Athén</h3>
+        <h4 class="route_date">2023.11.12</h4>
+        <h4 class="route_passenger">2 fő részére</h4>
+        <button class="route_button button" onclick="">Megvesz</button>
+        <div class="route_img_blur"></div>
+        <img class="route_img" src="img/monaco.jpg" alt="Monaco">
+    </div>
+    <div class="route_info">
+        <div class="route_left" onclick="prevNormal()">&#10094;</div>
+        <div class="info_container">
+            <div class="time_container">
+                <h3 class="route_times">11:45 - - - - - - - - - - > 16:50</h3>
+                <h3 class="travel_time">5ó 5p</h3>
+            </div>
+            <h3 class="congestion">Torlódik!</h3>
+            <h3 class="route_price">385.000 Ft</h3>
+        </div>
+        <div class="route_right" onclick="nextNormal()">&#10095;</div>
+    </div>
+</div>
+
+<div class="routes" id="route_retour">
+    <div class="route_head">
+        <h3 class="route_name">Budapest - Athén</h3>
+        <h4 class="route_date">2023.11.12</h4>
+        <h4 class="route_passenger">2 fő részére</h4>
+        <button class="route_button button" onclick="">Megvesz</button>
+        <div class="route_img_blur"></div>
+        <img class="route_img" src="img/monaco.jpg" alt="Monaco">
+    </div>
+    <div class="route_info">
+        <div class="route_left" onclick="prevRetour()">&#10094;</div>
+        <div class="info_container">
+            <div class="time_container">
+                <h3 class="route_times">11:45 - - - - - - - - - - > 16:50</h3>
+                <h3 class="travel_time">5ó 5p</h3>
+            </div>
+            <h3 class="congestion">Torlódik!</h3>
+            <h3 class="route_price">385.000 Ft</h3>
+        </div>
+        <div class="route_right" onclick="nextRetour()">&#10095;</div>
+    </div>
+</div>-->
+<!--
+<script>
+    let retourIndex = 0, normalIndex = 0;
+
+    let passengerCount = 2;
+    let normalFixInfo = {
+        "from": "Budapest",
+        "to": "Rome",
+        "departure_date": "2023.01.24."
+    }
+    let retourFixInfo = {
+        "from": "Rome",
+        "to": "Budapest",
+    }
+    let normalData = [
+        {
+            "departure_time": "11:45",
+            "arrival_time": "16:50",
+            "travel_time": "5ó 5p",
+            "congestion": true,
+            "price": 84000
+        },
+        {
+            "departure_time": "12:45",
+            "arrival_time": "17:50",
+            "travel_time": "5ó 5p",
+            "congestion": false,
+            "price": 105000
+        },
+        {
+            "departure_time": "13:45",
+            "arrival_time": "19:50",
+            "travel_time": "6ó 5p",
+            "congestion": true,
+            "price": 12200
+        },
+        {
+            "departure_time": "15:50",
+            "arrival_time": "16:50",
+            "travel_time": "5ó 5p",
+            "congestion": false,
+            "price": 105000
+        }
+    ]
+    let retourData = [
+        {
+            "departure_date" : "2023.12.12.",
+            "departure_time": "11:45",
+            "arrival_time": "16:50",
+            "travel_time": "5ó 5p",
+            "congestion": true,
+            "price": 86000
+        },
+        {
+            "departure_date" : "2023.12.12.",
+            "departure_time": "12:45",
+            "arrival_time": "17:50",
+            "travel_time": "5ó 5p",
+            "congestion": false,
+            "price": 84000
+        },
+        {
+            "departure_date" : "2023.12.12.",
+            "departure_time": "13:45",
+            "arrival_time": "18:50",
+            "travel_time": "5ó 5p",
+            "congestion": false,
+            "price": 88000
+        }
+    ]
+
+    let retourDiv = document.getElementById("route_retour");
+    let retourImg = retourDiv.getElementsByClassName("route_img")[0];
+    let retourRouteName = retourDiv.getElementsByClassName("route_name")[0];
+    let retourRouteDate = retourDiv.getElementsByClassName("route_date")[0];
+    let retourRoutePassenger = retourDiv.getElementsByClassName("route_passenger")[0];
+    let retourRouteTimes = retourDiv.getElementsByClassName("route_times")[0];
+    let retourCongestion = retourDiv.getElementsByClassName("congestion")[0];
+    let retourPrice = retourDiv.getElementsByClassName("route_price")[0];
+
+    let normalDiv = document.getElementById("route_forward");
+    let normalImg = normalDiv.getElementsByClassName("route_img")[0];
+    let normalRouteName = normalDiv.getElementsByClassName("route_name")[0];
+    let normalRouteDate = normalDiv.getElementsByClassName("route_date")[0];
+    let normalRoutePassenger = normalDiv.getElementsByClassName("route_passenger")[0];
+    let normalRouteTimes = normalDiv.getElementsByClassName("route_times")[0];
+    let normalCongestion = normalDiv.getElementsByClassName("congestion")[0];
+    let normalPrice = normalDiv.getElementsByClassName("route_price")[0];
+
+    const imageFolder = "img/"
+
+    loadFix();
+    showRetour();
+    showNormal();
+
+    function loadFix(){
+        //normal
+        normalRouteName.innerHTML = normalFixInfo.from + " - " + normalFixInfo.to;
+        normalRouteDate.innerHTML = normalFixInfo.departure_date;
+        normalRoutePassenger.innerHTML = passengerCount+ " fő részére";
+        normalImg.src = imageFolder + normalFixInfo.to.toLowerCase() + ".jpg";
+        normalImg.alt = normalFixInfo.to;
+
+        //retour
+        retourRouteName.innerHTML = retourFixInfo.from + " - " + retourFixInfo.to;
+        retourRoutePassenger.innerHTML = passengerCount + " fő részére";
+        retourImg.src = imageFolder + retourFixInfo.to.toLowerCase() + ".jpg";
+        retourImg.alt = retourFixInfo.to;
+    }
+    function nextRetour() {
+        retourIndex++;
+        retourIndex %= retourData.length;
+        showRetour();
+    }
+    function prevRetour() {
+        retourIndex--;
+        if(retourIndex < 0) retourIndex += retourData.length;
+        showRetour();
+    }
+    function nextNormal() {
+        normalIndex++;
+        normalIndex %= normalData.length;
+        showNormal();
+    }
+    function prevNormal() {
+        normalIndex--;
+        if(normalIndex < 0) normalIndex += normalData.length;
+        showNormal();
+    }
+    function showNormal() {
+        let route = normalData[normalIndex];
+
+        normalRouteTimes.innerHTML = route.departure_time + " - - - - - - - - - - > " + route.arrival_time;
+        normalCongestion.innerHTML = route.congestion? "Torlódik!" : "        ";
+        normalPrice.innerHTML = route.price + " Ft";
+    }
+    function showRetour() {
+        let route = retourData[retourIndex];
+
+        retourRouteDate.innerHTML = route.departure_date;
+        retourRouteTimes.innerHTML = route.departure_time + " - - - - - - - - - - > " + route.arrival_time;
+        retourCongestion.innerHTML = route.congestion? "Torlódik!" : "        ";
+        retourPrice.innerHTML = route.price + " Ft";
+    }
+</script>
+-->
+
+</body>
+</html>
